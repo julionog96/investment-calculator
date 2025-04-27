@@ -6,28 +6,34 @@ import Result from "./components/result"
 import { calculateInvestmentResults } from "./util/investment";
 
 function App() {
-      const [ initialInvest, setInitialInvest ] = useState(0);
-      const [ annualInvest, setAnnualInvest ] = useState(0);
-      const [ expectedReturn, setExpectedReturn ] = useState(0);
-      const [ duration, setDuration ] = useState(0);
+      const [ initialInvestment, setInitialInvestment ] = useState();
+      const [ annualInvestment, setAnnualInvestment ] = useState();
+      const [ expectedReturn, setExpectedReturn ] = useState();
+      const [ duration, setDuration ] = useState();
+      
+      let results
+      if (initialInvestment && annualInvestment && expectedReturn && duration) {
+        results = calculateInvestmentResults({
+          initialInvestment,
+          annualInvestment,
+          expectedReturn,
+          duration          
+        });
+      }
 
       const idStates = {
-          '0': setInitialInvest,
-          '1': setAnnualInvest,
+          '0': setInitialInvestment,
+          '1': setAnnualInvestment,
           '2': setExpectedReturn,
           '3': setDuration
       }
 
-      function execState(stateToExecute, value) {
-          stateToExecute(value);
-      }
 
       function handleInvestValues(e) {
           const id = e.target.id;
-          const value = e.target.value;
+          const value = parseFloat(e.target.value);
           const stateToExecute = idStates[id];
-          execState(stateToExecute, value);
-          calculateInvestmentResults(initialInvest, annualInvest, expectedReturn, duration);
+          stateToExecute(value);
       }
 
   return (
@@ -35,7 +41,7 @@ function App() {
       <Header />
       <main>
         <UserInput handleInvest={handleInvestValues} />
-        <Result />
+        <Result results={results} />
       </main>
     </>
   )

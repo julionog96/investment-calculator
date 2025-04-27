@@ -1,6 +1,8 @@
-import ResultRow from "./result-row"
+import { formatter } from "../util/investment";
 
-export default function Result() {
+export default function Result({ results }) {
+    console.log(results);
+
     return (
             <table id="result">
                 <thead>
@@ -14,8 +16,16 @@ export default function Result() {
 
                 </thead>
                 <tbody>
-                    <ResultRow />
-                    <ResultRow />
+                    {results?.map((item, index) => (
+                        <tr key={index}>
+                            <th>{item.year}</th>
+                            <th>{item.annualInvestment}</th>
+                            <th>{item.interest}</th>
+                            <th>{item.totalInterest}</th>
+                            <th>{item.valueEndOfYear}</th>                     
+                        </tr>
+                    ))}
+                
                 </tbody>
             </table>
     )
