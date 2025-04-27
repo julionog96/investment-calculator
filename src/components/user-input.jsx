@@ -1,17 +1,14 @@
-import UserInputGroup from "./user-input-group"
+export default function UserInput({ handleInvest }) {
 
-export default function UserInput() {
     const inputArray = ['Initial Invest', 'Annual Invest', 'Expected Return', 'Duration']
-
-    const inputContent = (
-        inputArray.map((item) => (
-            <div>
+    const inputContent = 
+        inputArray.map((item, index) => (
+            <div key={index}>
                 <label>{item}</label>
-                <input id={item} type="number" />
+                <input id={index} type="number" onKeyUp={handleInvest}/>
             </div>
-        ))
-    )
-    console.log(inputContent);
+        ));
+
     return (
         <section id="user-input" >
             <div className="input-group"> {inputContent.slice(0,2)} </div>
